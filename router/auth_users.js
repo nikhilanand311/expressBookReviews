@@ -42,7 +42,7 @@ regd_users.post("/login", (req, res) => {
     req.session.authorization = {
       accessToken, username
     }
-    return res.status(200).json({ message: "User successfully logged in" });
+    return res.status(200).json({ message: "Login successful!" });
   } else {
     return res.status(208).json({ message: "Invalid Login. Check username and password" });
   }
@@ -56,7 +56,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
   // Check if review text is provided
   if (!review) {
-    return res.status(400).json({message: "Review text is required"});
+    return res.status(400).json({ message: "Review text is required" });
   }
 
   // Check if book exists
@@ -68,7 +68,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
       reviews: books[isbn].reviews
     });
   } else {
-    return res.status(404).json({message: "Book not found"});
+    return res.status(404).json({ message: "Book not found" });
   }
 });
 
@@ -84,14 +84,13 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
       // Delete the review
       delete books[isbn].reviews[username];
       return res.status(200).json({
-        message: "Review deleted successfully",
-        reviews: books[isbn].reviews
+        message: "Review for ISBN " + isbn + " deleted"
       });
     } else {
-      return res.status(404).json({message: "Review not found for this user"});
+      return res.status(404).json({ message: "Review not found for this user" });
     }
   } else {
-    return res.status(404).json({message: "Book not found"});
+    return res.status(404).json({ message: "Book not found" });
   }
 });
 
